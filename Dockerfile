@@ -38,3 +38,13 @@ RUN git clone --depth 1 --branch v2.3.0 https://github.com/cisco/libacvp.git && 
     cd .. && \
     rm -rf libacvp
 
+# Now copy stuff to the real container that we release
+From fedora:43
+
+COPY --from=builder /opt/ /opt/
+COPY --from=builder /usr/bin/acvp_app /usr/bin/acvp_app
+COPY --from=builder /usr/lib64/libacvp* /usr/lib64
+
+# make sure all apps use our build libs
+env LD_LIBRARY_PATH=/opt/openssl/lib64:/opt/curl/lib
+
