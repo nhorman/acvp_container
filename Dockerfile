@@ -52,5 +52,9 @@ COPY run_endpoint.sh /
 RUN chmod +x /run_endpoint.sh
 # make sure all apps use our build libs
 env LD_LIBRARY_PATH=/opt/openssl/lib64:/opt/curl/lib
+env OPENSSL_MODULES=/opt/openssl/lib64/ossl-modules
+env OPENSSL_CONF=/opt/openssl/ssl/openssl.cnf
+env OPENSSL_CONF_INCLUDE=/opt/openssl/ssl/
+
 ENTRYPOINT [ "/run_endpoint.sh" ]
 
