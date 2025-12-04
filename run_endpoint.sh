@@ -28,5 +28,6 @@ export ACV_URI_PREFIX=/acvp/v1/
 export ACV_API_CONTEXT=acvp/
 export ACV_PORT=443
 export ACV_SERVER=demo.acvts.nist.gov
+load_secrets
 
 exit 0
