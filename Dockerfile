@@ -31,11 +31,12 @@ RUN git clone --depth 1 --branch curl-8_17_0 https://github.com/curl/curl.git &&
 # Build libacvp
 RUN git clone --depth 1 --branch v2.3.0 https://github.com/cisco/libacvp.git && \
     cd libacvp && \
-    ./configure --prefix=/usr --with-libcurl-dir=/opt/curl --with-ssl-dir=/opt/openssl && \
+    ./configure --prefix=/usr --enable-unit-tests --with-libcurl-dir=/opt/curl --with-ssl-dir=/opt/openssl && \
     make -j && \
     make test && \
+    ./test/runtest -v && \
     make install && \
-    cd .. && \
+    cd .. && \ 
     rm -rf libacvp
 
 # Now copy stuff to the real container that we release
@@ -45,6 +46,9 @@ COPY --from=builder /opt/ /opt/
 COPY --from=builder /usr/bin/acvp_app /usr/bin/acvp_app
 COPY --from=builder /usr/lib64/libacvp* /usr/lib64
 
+COPY run_endpoint.sh /
+RUN chmod +x /run_endpoint.sh
 # make sure all apps use our build libs
 env LD_LIBRARY_PATH=/opt/openssl/lib64:/opt/curl/lib
+ENTRYPOINT [ "/run_endpoint.sh" ]
 
