@@ -22,11 +22,7 @@ load_secrets() {
     export ACV_TOTP_SEED=$(cat /secrets/acv_totp_seed)
 }
 
-# set non-secret settings
-export ACV_URI_PREFIX=/acvp/v1/
-export ACV_API_CONTEXT=acvp/
-export ACV_PORT=443
-export ACV_SERVER=demo.acvts.nist.gov
+# load secrets
 load_secrets
 
 # run fipsinstall to create the fipsmodule.cnf

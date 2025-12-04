@@ -5,7 +5,9 @@ It is currently meant to build with podman, but should work equally well with do
 
 ## Building
 just run `make all`
-Note that by default it is configured to create the acvp_app with openssl 3.5.4 as the FIPS module under test
+Note that by default it is configured to create the acvp_app with openssl master as the FIPS module under test.
+The container also builds a custom version libcurl, and of course libacvp.  Versions for all three can be modified
+by adjusting the build args in the docker file, or specifying them via the --build-arg option when building the container.
 
 ## Running
 you can run it with podman/docker directly, or you can run `make run` to start an interactive session in the container

@@ -1,5 +1,9 @@
 From fedora:43 AS builder
 
+ARG OPENSSL_TAG=master
+ARG CURL_TAG=curl-8_17_0
+ARG LIBACVP_TAG=v2.3.0
+
 # install needed tools
 run sudo dnf install -y git perl-FindBin perl-IPC-Cmd gcc make \
                         perl-File-Compare perl-File-Copy perl-Time-Piece \
@@ -8,7 +12,7 @@ run sudo dnf install -y git perl-FindBin perl-IPC-Cmd gcc make \
 env LD_RUN_PATH=/opt/openssl/lib64:/opt/curl/lib
 
 # Start by building openssl, we deafult to the latest FIPS approved version
-RUN git clone --depth 1 --branch openssl-3.5.4 https://github.com/openssl/openssl && \
+RUN git clone --depth 1 --branch ${OPENSSL_TAG} https://github.com/openssl/openssl && \
     cd openssl && \
     ./Configure --prefix=/opt/openssl enable-fips no-docs && \
     make -j && \
@@ -16,7 +20,7 @@ RUN git clone --depth 1 --branch openssl-3.5.4 https://github.com/openssl/openss
     cd .. && rm -rf openssl
 
 # Now build curl
-RUN git clone --depth 1 --branch curl-8_17_0 https://github.com/curl/curl.git &&\
+RUN git clone --depth 1 --branch ${CURL_TAG} https://github.com/curl/curl.git &&\
     cd curl && \
     autoreconf -fi && \
     ./configure --prefix=/opt/curl --disable-manual --disable-static --enable-hsts --enable-ipv6 \
@@ -32,7 +36,7 @@ RUN git clone --depth 1 --branch curl-8_17_0 https://github.com/curl/curl.git &&
 #COPY Demo.cer /
 
 # Build libacvp
-RUN git clone --depth 1 --branch v2.3.0 https://github.com/cisco/libacvp.git && \
+RUN git clone --depth 1 --branch ${LIBACVP_TAG} https://github.com/cisco/libacvp.git && \
     cd libacvp && \
     ./configure --prefix=/usr --enable-unit-tests --with-libcurl-dir=/opt/curl --with-ssl-dir=/opt/openssl && \
     make -j && \
