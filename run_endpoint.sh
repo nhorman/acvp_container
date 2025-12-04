@@ -30,8 +30,12 @@ export ACV_PORT=443
 export ACV_SERVER=demo.acvts.nist.gov
 load_secrets
 
+# run fipsinstall to create the fipsmodule.cnf
 /opt/openssl/bin/openssl fipsinstall -module /opt/openssl/lib64/ossl-modules/fips.so -out /opt/openssl/ssl/fipsmodule.cnf
-sed -i -e"s/#\.include fipsmodule.cnf/\.include fipsmodule.cnf/" /opt/openssl/ssl/openssl.cnf
-sed -i -e"s/#fips = fips_sect/fips = fips_sect/" /opt/openssl/ssl/openssl.cnf
 
+# and stitch it into our config file
+sed -i -e"s/# \.include fipsmodule.cnf/\.include fipsmodule.cnf/" /opt/openssl/ssl/openssl.cnf
+sed -i -e"s/# fips = fips_sect/fips = fips_sect/" /opt/openssl/ssl/openssl.cnf
+
+# Now just run a shell so users can run the acvp_app
 exec /bin/bash
