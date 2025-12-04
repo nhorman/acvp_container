@@ -23,7 +23,6 @@ load_secrets() {
 }
 
 # set non-secret settings
-
 export ACV_URI_PREFIX=/acvp/v1/
 export ACV_API_CONTEXT=acvp/
 export ACV_PORT=443
@@ -36,6 +35,9 @@ load_secrets
 # and stitch it into our config file
 sed -i -e"s/# \.include fipsmodule.cnf/\.include fipsmodule.cnf/" /opt/openssl/ssl/openssl.cnf
 sed -i -e"s/# fips = fips_sect/fips = fips_sect/" /opt/openssl/ssl/openssl.cnf
+
+# activate the default provider as well
+sed -i -e"s/# activate = 1/activate = 1/" /opt/openssl/ssl/openssl.cnf
 
 # Now just run a shell so users can run the acvp_app
 exec /bin/bash
