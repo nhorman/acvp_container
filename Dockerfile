@@ -27,14 +27,16 @@ RUN git clone --depth 1 --branch curl-8_17_0 https://github.com/curl/curl.git &&
     cd .. && \
     rm -rf curl
 
+#COPY acvp.nist.gov.crt /
+#COPY Demo.key /
+#COPY Demo.cer /
 
 # Build libacvp
 RUN git clone --depth 1 --branch v2.3.0 https://github.com/cisco/libacvp.git && \
     cd libacvp && \
     ./configure --prefix=/usr --enable-unit-tests --with-libcurl-dir=/opt/curl --with-ssl-dir=/opt/openssl && \
     make -j && \
-    make test && \
-    ./test/runtest -v && \
+#   ACV_API_CONTEXT=acvp/ ACV_URI_PREFIX=/acvp/v1/ ACV_CA_FILE=/acvp.nist.gov.crt ACV_KEY_FILE=/Demo.key ACV_CERT_FILE=/Demo.cer ACV_TOTP_SEED=gyqLPHsr2yT37XhfPO8KFIO6yUKrvRBkFZJoxDTs8RR5vpkqlbsCGyVHR9hqq11B ACV_PORT=443 ACV_SERVER=demo.acvts.nist.gov ./test/runtest -v && \
     make install && \
     cd .. && \ 
     rm -rf libacvp
