@@ -35,5 +35,10 @@ sed -i -e"s/# fips = fips_sect/fips = fips_sect/" /opt/openssl/ssl/openssl.cnf
 # activate the default provider as well
 sed -i -e"s/# activate = 1/activate = 1/" /opt/openssl/ssl/openssl.cnf
 
+# If a script is specified, run that instead of the interactive shell
+if [ -n "$SCRIPT" -a -f /scripts/$SCRIPT]; then
+    exec /scripts/$SCRIPT
+fi
+
 # Now just run a shell so users can run the acvp_app
 exec /bin/bash

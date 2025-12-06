@@ -54,6 +54,7 @@ env LD_LIBRARY_PATH=/opt/openssl/lib64:/opt/curl/lib
 env OPENSSL_MODULES=/opt/openssl/lib64/ossl-modules
 env OPENSSL_CONF=/opt/openssl/ssl/openssl.cnf
 env OPENSSL_CONF_INCLUDE=/opt/openssl/ssl/
+env SCRIPT=
 
 ENTRYPOINT [ "/run_endpoint.sh" ]
 
