@@ -36,7 +36,7 @@ sed -i -e"s/# fips = fips_sect/fips = fips_sect/" /opt/openssl/ssl/openssl.cnf
 sed -i -e"s/# activate = 1/activate = 1/" /opt/openssl/ssl/openssl.cnf
 
 # If a script is specified, run that instead of the interactive shell
-if [ -n "$SCRIPT" -a -f /scripts/$SCRIPT]; then
+if [ -n "$SCRIPT" -a -f /scripts/$SCRIPT ]; then
     exec /scripts/$SCRIPT
 fi
 
